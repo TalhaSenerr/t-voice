@@ -1,0 +1,62 @@
+T-VOICE 1.2 — Sürüm kapsamı
+=========================
+
+AMAÇ
+Windows'ta Türkçe ve İngilizce konuşmayı cihazdan çıkarmadan yazıya çevirmek.
+Günlük kullanım: uygulamayı aç, hedef metin alanını seç, Fn + F10 → konuş → Fn + F10.
+
+BU SÜRÜMÜN DEĞİŞİKLİKLERİ
+• Önerilen yerel konuşma modeli: Intel GPU üzerinde OpenVINO Whisper
+  large-v3-turbo INT8. Taşınabilir paket Turbo ve Small modellerini içerir.
+• Sessizlik kontrolünden geçen kayıtlar parçalanmadan modele gönderilir;
+  Türkçe içindeki İngilizce kelimelerin parçalama sırasında kaybolması önlenir.
+• GPU modelini tekrar açmayı hızlandıran yerel derleme önbelleği.
+  Önbellek ses veya metin geçmişi içermez.
+• Huawei klavyede Fn + F10 ile kaydı başlatma/bitirme. Fn ışığı kapalı olmalı.
+  Klavye bu birleşimi Windows'a F10 olarak iletir. Fn ayrı algılanmaz;
+  Fn kilidi açıkken doğrudan F10 da çalışabilir.
+• Kayıt göstergesinde konuşma algılanmadığında veya işlem/yazma hatasında kısa
+  durum bildirimi; sonuç bildirimi kayıt denetimlerini göstermez.
+• Yeni kurulumda ve eski sürümden ilk geçişte etkin alana otomatik yazma.
+  T-Voice içinde daha sonra değiştirilen otomatik yazma tercihi korunur.
+• Sade ana ekran; sözlük, model, dil ve gelişmiş seçeneklere gerektiğinde erişim.
+• Pencere kapatılınca bildirim alanında çalışma; menüde Çıkış ile tam kapatma.
+• Seçili yerel modeli açılışta arka planda hazırlama ve tekrar kullanma.
+  Hazırlık mikrofonu açmaz; yalnızca kullanıcı kayıt başlatırsa dinlenir.
+• Eski Duru ayarlarını yeni %LOCALAPPDATA%\T-Voice konumuna taşıma.
+
+KORUNAN ÖZELLİKLER
+Türkçe–İngilizce seçenekleri, kişisel terim
+sözlüğü, dolgu sesi temizleme, ham/temiz metin, düzenleme, kopyalama ve .txt
+kaydetme. Mikrofon kaydı ve dosyadan çözümleme; 10 dakika / 150 MB sınırları.
+Ses geçmişi oluşturmayan RAM işleme, kullanım analitiği olmaması ve Windows
+DPAPI ile tercih/sözlük saklama. Kaynak kodu, lisanslar ve yerel modeller teslimi.
+
+DOĞRULAMA
+Bu dosya test sonucu raporu değildir. Otomatik kontrollerin ve paket testlerinin
+gerçek sonuçları TEST-SONUCLARI.txt içindedir. Kullanıcının kendi mikrofonuyla
+uçtan uca kabul testi yapıldığı veya VoiceInk'ten üstün olduğu iddia edilmez.
+Fiziksel Fn + F10, Fn kilidinin durumuna bağlıdır; sentetik F10 testi fiziksel
+Fn birleşiminin test edildiği anlamına gelmez.
+Modelin önceden hazırlanması ilk çözümlemede model yükleme ihtiyacını azaltır;
+tanıma süresi donanıma ve konuşma uzunluğuna bağlıdır, anlık sonuç vaat edilmez.
+
+KİŞİSEL KONTROL
+1. Huawei'de Fn ışığını kapat. Boş bir metin alanında Fn + F10 → kısa
+   Türkçe–İngilizce cümle → Fn + F10 akışını dene.
+2. Pencereyi X ile küçültüp aynı akışı tekrarla.
+3. Yanlış tanınan özel isimleri/terimleri sözlüğe ekle ve yeniden dene.
+4. İstersen Whisper Turbo/Small sonuçlarını aynı cümlelerle karşılaştır.
+
+SINIRLAR
+Canlı akan metin ve genel dağıtım için kod imzası bu sürümün
+kapsamında değildir. Aynı pencere içindeki hedef alan değişimleri her zaman
+izlenemez; bazı yönetici yetkili uygulamalar girişi reddeder.
+Güvenlik kontrolleri bağımsız güvenlik denetimi veya %100 güvenlik garantisi
+değildir. ONNX Runtime'ın başlangıç ETW tanı olayları Windows'un denetimindedir;
+Python ağ kontrolleri yerel DLL/işletim sistemi trafiğinin tamamını izlemez.
+
+SONRAKİ İŞLER — İSTEĞE BAĞLI
+Kişisel örneklerle terim doğruluğu ve bekleme süresi ölçümü; uygun donanımda
+farklı donanımlarda hızlandırma değerlendirmesi; canlı metin; daha hassas hedef alan
+doğrulaması; genel dağıtım istenirse kod imzası ve bağımsız güvenlik incelemesi.

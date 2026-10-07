@@ -1,0 +1,16 @@
+.venv/
+.venv-openvino/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.idea/
+.vscode/
+build*/
+dist/
+*.wav
+*.mp3
+*.log
+.test-artifacts/
+.test-artifacts-audit.json
+release/

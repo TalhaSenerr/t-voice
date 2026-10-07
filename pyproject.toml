@@ -1,0 +1,19 @@
+[project]
+name = "t-voice"
+version = "1.2.0"
+description = "Private Windows dictation for Turkish and English"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "PySide6>=6.8,<7",
+  "faster-whisper>=1.2,<2",
+  "sounddevice>=0.5,<0.6",
+  "numpy>=2,<3",
+  "openvino-genai==2026.4.1.0",
+]
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "pyinstaller>=6.11,<7", "pip-audit>=2.7,<3"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

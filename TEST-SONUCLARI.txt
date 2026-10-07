@@ -1,0 +1,124 @@
+﻿T-VOICE 1.2 — Doğrulama sonuçları
+3 Ekim 2026
+
+Windows 11 · Intel Core Ultra 5 125H · 16 GB RAM · Intel Arc dahili GPU
+Önerilen model: OpenVINO Whisper large-v3-turbo INT8 (turbo-ov)
+Paket kapsamı: Turbo + işlemcide çalışan Small yedek seçeneği.
+
+OTOMATİK KONTROLLER
+143 otomatik test geçti.
+Komut: .venv\Scripts\python.exe -m pytest -q
+
+Kapsam: yerel model keşfi, OpenVINO GPU yükleme ve hata davranışı, eksik
+modelde indirme yapılmaması, sessizlik, sesin bellekte temizlenmesi, kayıt ve
+dosya sınırları, dolgu temizliği, sözlük, şifreli ayarlar, Windows Unicode
+girişi, kısayol mesajı işleme, odak/tuş denetimleri ve güvenli kapanış.
+Yeni kontroller ayrıca şunları doğrular:
+• Arka planda işlem hatası, konuşma bulunamaması ve yazma hatası görünür kalır.
+• Kayan durum bildirimi konuşma metnini içermez; bitmiş işlemde kayıt
+  denetimleri gizlenir. Yeni kayıt, eski bildirimin gizlenme zamanlayıcısını durdurur.
+• Model hazırlığı sürerken seçilen yeni model sıraya alınır; başarısız
+  hazırlık kendiliğinden tekrar döngüsüne girmez.
+• Kayıt iptalinden sonra bekleyen model hazırlığı devam eder.
+• Test sonlarında kayan gösterge ve bildirim zamanlayıcısı temizlenir.
+
+GÜNCEL UYGULAMA MOTORUYLA ÖLÇÜMLER
+Sesler mevcut Windows Tolga/Zira sesleriyle cihazda üretilmiş yapay test
+örnekleridir. Kullanıcının mikrofonu açılmadı. Süreler bu bilgisayardaki
+ölçümlerdir; her kayıt için hız veya doğruluk garantisi değildir.
+Kaynak: .test-artifacts\openvino-production-pipeline.json
+
+Örnek                         Ses süresi       Çözümleme
+Türkçe                         6,82 sn          2,04 sn
+Türkçe + İngilizce terimler    12,24 sn          1,49 sn
+İngilizce, otomatik dil         6,95 sn          1,34 sn
+Karışık cümlenin 3 tekrarı     36,72 sn          3,20 sn
+
+Model yükleme: 2,56 sn; yukarıdaki çözümleme sürelerine dahil değildir.
+Bu yükleme, daha önce hazırlanmış GPU model önbelleğini kullanır.
+Kısa karışık örnekte ve İngilizce örnekte GitHub, pull request ve TypeScript
+korundu. 36,72 saniyelik örnekte üç cümlenin tamamı korundu; TypeScript iki
+yerde "Type script" olarak ayrıldı, bir yerde birleşik yazıldı. Uzun örnekte
+gereğinden fazla noktalama da üretildi. Bu nedenle uzun konuşmalarda terim
+biçiminin veya noktalamanın kusursuz olduğu iddia edilmez.
+Sözlük ipuçları verilen sessiz kayıt boş metin döndürdü.
+
+AYRI GPU VE KAYNAK KONTROLLERİ
+İzole GPU ölçümünde sözlük ipucu verilmeden kısa Türkçe ve karışık örneklerde
+kelimeler korundu; karışık ve İngilizce örneklerde üç yabancı terim tanındı.
+Bu ayrı ölçümün ilk koşusu: Türkçe 1,75 sn, karışık 2,43 sn, İngilizce 1,24 sn.
+İkinci koşu: sırasıyla 1,56 / 1,46 / 1,23 sn. Bunlar yukarıdaki tam uygulama
+motoru ölçümleriyle aynı koşu değildir. İngilizce için tam referans metin
+bulunmadığından kelime hata oranı yerine yalnızca terimler kontrol edildi.
+Kaynak: .test-artifacts\openvino-benchmark-gpu-beam1.json
+
+Ayrı kaynak smoke testi İngilizce çözümleme ve sessizliği doğruladı;
+yükleme ve çözümleme birlikte 5,19 sn sürdü. 28 ses aygıtı kaydı sorgulandı;
+aygıt sayısı mikrofonun açıldığı veya çalıştığının sınandığı anlamına gelmez.
+Kaynak: .test-artifacts\openvino-source-smoke.json
+
+YABANCI KELİME KAYBININ İNCELENMESİ
+Eski ses parçalama ayarları 12,24 saniyelik karışık yapay örneğin yalnızca
+8,79 saniyesini modele iletiyordu. Aynı örneği parçalamadan çözen CPU Turbo
+koşusunda GitHub, pull request ve TypeScript korundu; çözümleme 10,46 sn sürdü.
+Bu, örnekteki yabancı kelime kaybının yalnızca model boyutundan kaynaklanmadığını
+gösterdi. Güncel motor sessizlik kontrolünden geçen kaydın tamamını çözümler.
+Kaynaklar: turbo-vad-diagnostic.json, turbo-no-vad-benchmark.json.
+
+ARAYÜZ VE KISAYOL
+Ana ekran, ayarlar ve kayan gösterge Windows üzerinde incelendi. Fn + F10
+etiketleri, Turbo seçimi, kurulu model bulunmadığında Small seçimi ve hata
+bildiriminden yeniden kayıt durumuna geçiş Qt kontrollerinden geçti.
+Huawei'de Fn ışığı kapalıyken Fn + F10, Windows'a F10 olarak iletilir.
+Uygulama standart F10 olayını dinler; Fn ayrı bir değiştirici olarak zorlanmaz.
+Fn kilidi açıkken doğrudan F10 çalışabilir. Fiziksel Fn + F10 birleşimiyle
+kullanıcı kabul testi yapılmadı; sentetik Windows tuş testi bunun yerine geçmez.
+
+GİZLİLİK VE MODEL BÜTÜNLÜĞÜ
+Güncel üretim motoru, kaynak smoke ve GPU benchmark raporlarında denetlenen
+Python ağ girişimi sayısı sıfırdır. Üretim raporu OpenVINO telemetri modülünün
+yüklenmesinin engellendiğini de doğrular. Bu denetim tüm native DLL veya
+Windows ağ trafiğinin paket yakalaması değildir; bağımsız güvenlik denetimi
+ve %100 güvenlik kanıtı olarak yorumlanmamalıdır. ONNX Runtime'ın Windows
+başlangıç ETW tanı olayları işletim sisteminin denetimindedir.
+Erken tanı koşusu openvino-probe-telemetry-blocked.json bir DNS girişimi
+kaydetmiştir. Bu erken tanı koşusu yukarıdaki güncel kaynak testlerinden ayrıdır.
+
+OpenVINO modelinin 19 dosyası, sabit kaynak revizyonundaki Git blob/LFS
+özetleriyle doğrulandı; yerel SHA-256 özetleri de kaydedildi.
+Depo: OpenVINO/whisper-large-v3-turbo-int8-ov
+Revizyon: b568445dd5dc8c695bde596f8acbb4694fd6ba64
+Kaynak: .test-artifacts\openvino-model.json
+GPU önbelleği derlenmiş model dosyalarını içerir; ses veya metin geçmişi değildir.
+Konum: %LOCALAPPDATA%\T-Voice\cache\openvino
+
+WINDOWS PAKETİ DOĞRULANDI
+1.2 T-Voice.exe, kendi models klasöründeki Turbo ve Small dosyalarını buldu.
+Paketli GPU motoru İngilizce örneği doğru çözdü; sessizlik boş metin verdi.
+İlk paket kontrolünde yükleme ve çözümleme birlikte 9,01 sn sürdü.
+Kaynak: .test-artifacts\openvino-frozen-smoke.json
+
+Paketli uygulama standart F10 kısayolunu Windows'a kaydetti. Sentetik Windows
+kısayol mesajlarıyla kayıt başlatıldı ve bitirildi; mikrofon yerine yapay ses
+verildi. Ön hazırlık 2,36 sn sürdü ve bu sırada mikrofon başlatma sayısı sıfırdı.
+İlk kısayol mesajı 7,7 ms içinde sentetik kayıt durumuna geçti; gerçek mikrofon
+gecikmesi ölçülmedi. Metin doğru çözüldü, tepsi çalıştı, pencere kapandıktan
+sonra kısayol kayıtlı kaldı ve Çıkış ile temizlendi. Python ağ girişimi yoktu.
+Kaynaklar: openvino-workflow-source.json, openvino-workflow-frozen.json.
+35 sabitlenmiş çalışma zamanı bağımlılığı pip-audit taramasında bilinen açık
+göstermedi; sonuç 3 Ekim 2026 veri tabanı kapsamıyla sınırlıdır.
+
+DOĞRULANMAYANLAR
+Kullanıcının gerçek mikrofonu, aksanı, doğal Türkçe–İngilizce konuşması ve
+gürültülü ortamı ölçülmedi. Word/WhatsApp gibi uygulamalara gerçek metin
+aktarımı ve fiziksel Fn + F10 denenmedi. VoiceInk ile aynı kayıtlar üzerinde
+karşılaştırma yapılmadı. Genel dağıtım için kod imzası veya bağımsız güvenlik
+denetimi yapılmadı. %100 güvenlik ya da kusursuz tanıma iddiası yoktur.
+
+KANITLAR VE TARİHSEL RAPORLAR
+Güncel JSON dosyaları .test-artifacts\ altında, kaynak arşivinde verification\
+altında bulunur. Önceki Duru 1.0 / T-Voice 1.1 sonuçları ayrı tarihsel kanıtlardır:
+  offline-results.json, language-results.json, model-integrity.json
+  frozen-smoke-final.json, startup-smoke.json
+  tvoice-workflow-source.json, tvoice-workflow-frozen.json, tvoice-frozen-smoke.json
+Bu eski raporların model, süre ve paket sonuçları güncel sürüme taşınmaz.

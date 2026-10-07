@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'none'; font-src 'none'; connect-src 'none'; script-src 'none'; base-uri 'none'; form-action 'none'">
+<title>T-Voice 1.2 — Kullanım kılavuzu</title>
+<style>
+:root{color-scheme:light;--ink:#263e34;--muted:#627265;--green:#214f40;--line:#dce5dc;--wash:#f1f6f0}
+*{box-sizing:border-box}body{margin:0;background:#eaf0e8;color:var(--ink);font:16px/1.65 "Segoe UI",Arial,sans-serif}main{max-width:820px;margin:40px auto;background:white;padding:42px 48px;border:1px solid var(--line);border-radius:16px}header{display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid var(--line);padding-bottom:20px}.brand{font-size:23px;font-weight:700}.edition,.small{font-size:13px;color:var(--muted)}h1{font-size:38px;letter-spacing:-1px;line-height:1.2;margin:32px 0 12px}h2{font-size:21px;line-height:1.35;margin:30px 0 12px}p{margin:10px 0 16px}.intro{font-size:19px;color:var(--muted)}ol,ul{padding-left:23px}li{padding-left:3px;margin:10px 0}kbd,code{font:13px/1.6 Consolas,monospace;background:var(--wash);padding:3px 6px;border-radius:5px;overflow-wrap:anywhere}h1 kbd{font:inherit;background:transparent;padding:0}.note{background:var(--wash);border:1px solid var(--line);padding:16px 20px;border-radius:10px;margin:22px 0}.note p{margin:0}details{border-top:1px solid var(--line);padding:16px 0}summary{cursor:pointer;font-size:18px;font-weight:600}details h2{font-size:17px;margin-top:22px}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;vertical-align:top;padding:12px 9px;border-bottom:1px solid var(--line)}th{background:var(--wash);font-weight:600}footer{border-top:1px solid var(--line);margin-top:24px;padding-top:18px;color:var(--muted);font-size:13px}@media(max-width:600px){main{margin:0;border-radius:0;padding:24px}h1{font-size:30px}header{align-items:flex-start}.edition{max-width:140px;text-align:right}}@media print{body{background:white;font-size:11pt}main{max-width:none;margin:0;padding:0;border:none}h1{font-size:27pt}details{break-inside:avoid}details::details-content{content-visibility:visible}summary{list-style:none}.note{break-inside:avoid}}
+</style>
+</head>
+<body>
+<main>
+<header><span class="brand">T-Voice</span><span class="edition">1.2 · Windows · Yerel dikte</span></header>
+<h1><kbd>Fn + F10</kbd> → Konuş → <kbd>Fn + F10</kbd></h1>
+<p class="intro">Türkçe ve İngilizce konuş. Sesin cihazında yazıya dönüşsün.</p>
+<ol>
+<li>Masaüstündeki <strong>T-Voice</strong> kısayolunu bir kez aç.</li>
+<li>Yazmak istediğin uygulamadaki <strong>metin alanına tıkla</strong>.</li>
+<li><kbd>Fn + F10</kbd>'a bas ve konuş. Bitince tekrar <kbd>Fn + F10</kbd>'a bas.</li>
+<li>Çözümleme tamamlandığında metin seçtiğin alana yazılır. O zamana kadar hedef alanı değiştirme.</li>
+</ol>
+<p class="small">Etkin alana yazma yeni kurulumda ve önceki sürümden ilk geçişte açıktır. İstersen Ayarlar'dan kapatabilirsin; sonraki açılışlarda tercihin korunur. Kayıt düğmesiyle başlayan kayıtlarda ve dosyadan çözümlemede sonuç önce T-Voice içinde gösterilir.</p>
+<p class="small"><strong>Huawei: Fn ışığı kapalı olmalı. Fn kilidi açıkken doğrudan F10 çalışabilir.</strong> Fn + F10 başka bir Huawei işlevini açarsa Fn ışığını kapat veya Huawei PC Yöneticisi → Ayarlar → Erişilebilirlik/Sistem ayarları → <strong>Kısayol tuşlarına öncelik ver</strong> seçimini yap.</p>
+<div class="note"><p><strong>Pencereyi kapatsan da Fn + F10 hazır.</strong> X düğmesi T-Voice'u saatin yanındaki bildirim alanına küçültür. Pencereyi açmak için simgeye tıkla. Tamamen kapatmak için simgeye sağ tıkla ve <strong>Çıkış</strong>'ı seç. Kayıt sırasında X'e basarsan o kayıt iptal edilir. Fn + F10 için uygulamanın çalışıyor olması gerekir.</p></div>
+<h2>Bekleme süresini azaltmak için</h2>
+<p>Seçili yerel model açılışta arka planda hazırlanır ve sonraki kayıtlarda tekrar kullanılır. <strong>Mikrofon yalnızca kaydı başlatınca açılır.</strong> Önerilen model, Intel ekran kartını kullanan <strong>OpenVINO Whisper large-v3-turbo INT8</strong>'dir; Small daha az bellek kullanır. GPU modeli ilk hazırlanırken sonraki açılışları hızlandıran yerel model önbelleği oluşturulur. Metin kayıt bittikten sonra oluşur; hız bilgisayarına ve kayıt uzunluğuna bağlıdır. Gerçek ölçümler ve sınırları <code>TEST-SONUCLARI.txt</code> içindedir.</p>
+
+<details>
+<summary>Kelimeler, modeller ve sonuç</summary>
+<h2>Türkçe + İngilizce</h2>
+<p>Varsayılan dil seçimi Türkçe ağırlıklı, İngilizce terimler içeren konuşmalar içindir. İngilizce ağırlıklı konuşmada İngilizce seçeneğini kullanabilirsin. Dil ve model seçenekleri Ayarlar'dadır; her kelimenin doğru tanınması garanti değildir.</p>
+<p>Sessiz kayıtlar elenir. Konuşma algılanan kaydın tamamı modele verilir; böylece Türkçe arasındaki İngilizce kelimeler ses parçalama sırasında kesilmez.</p>
+<h2>Kişisel sözlük</h2>
+<p>Sözlüğe tercih edilen yazımı ve alternatifleri ekle: <strong>GitHub</strong> için <em>git hap, git hub</em>. Tercih edilen yazım modele ipucu verir; alternatifler tam kelime/ifade eşleşmesiyle değiştirilir. Değişiklikler sonraki çözümlemede uygulanır.</p>
+<h2>Dolgu sesleri</h2>
+<p>Temizlik açıkken “eee”, “hmm”, “umm” gibi belirgin sesler çıkarılır. “Şey”, “yani”, “like”, “well” gibi anlam taşıyabilen kelimeler korunur. Gerektiğinde ham metni inceleyebilir, sonucu düzenleyebilir, kopyalayabilir veya .txt kaydedebilirsin.</p>
+<h2>Kısa kullanım notları</h2>
+<ul>
+<li>Kayıt/dosya çözümlemesi en fazla 10 dakika; dosya boyutu en fazla 150 MB.</li>
+<li>F10 başka bir uygulamayla çakışırsa durum mesajını kontrol et; kayıt düğmesini kullan.</li>
+<li>Klavye, kısayol modunda Fn + F10'u Windows'a F10 olarak iletir. Fn ayrı bir uygulama değiştiricisi değildir; fiziksel tuş birleşiminin çalışması klavyenin Fn moduna bağlıdır. <a href="https://consumer.huawei.com/tr/support/content/tr-tr00729419/">Huawei klavye kılavuzu</a>.</li>
+<li>Aynı pencere içindeki alan değişiklikleri her zaman izlenemez. Bazı yönetici yetkili uygulamalar otomatik girişi reddedebilir. Sonuç T-Voice içinde de görünür.</li>
+<li>Otomatik yazma seçeneğini Ayarlar'dan kapatabilir, metni kontrol ederek kendin aktarabilirsin.</li>
+</ul>
+</details>
+
+<details>
+<summary>Gizlilik ve verilerin</summary>
+<table>
+<thead><tr><th>Veri</th><th>T-Voice'un davranışı</th></tr></thead>
+<tbody>
+<tr><td>Ses</td><td>Cihazındaki yerel modelle, bellekte işlenir. Ses kaydı dosyası veya ses geçmişi oluşturulmaz; ses buluta gönderilmez.</td></tr>
+<tr><td>Metin</td><td>Uygulamada gösterilir ve açıksa hedef alana yazılır. Geçmiş veritabanına kaydedilmez. Temizle ile kaldırabilir veya bildirim alanındaki Çıkış ile uygulamayı sonlandırabilirsin.</td></tr>
+<tr><td>Ayarlar ve sözlük</td><td><code>%LOCALAPPDATA%\T-Voice\preferences.dpapi</code> içinde Windows hesabına bağlı DPAPI şifrelemesiyle saklanır. Eski Duru tercihleri varsa ilk açılışta taşınır; eski dosya korunur.</td></tr>
+<tr><td>Model önbelleği</td><td>GPU için derlenen model dosyaları <code>%LOCALAPPDATA%\T-Voice\cache\openvino</code> içinde saklanır. Bu önbellek ses kaydı veya konuşma metni geçmişi değildir.</td></tr>
+<tr><td>Kopyalama ve kaydetme</td><td>Kopyaladığın metin Windows panosuna gider. Kaydettiğin .txt dosyası ayrıca şifrelenmez. Windows pano geçmişi veya eşitlemesi metni saklayabilir ya da aktarabilir.</td></tr>
+<tr><td>Telemetri</td><td>T-Voice kullanım analitiği toplamaz. ONNX Runtime telemetrisi API ile kapatılır; Windows'ta bu çağrıdan önce oluşabilen başlangıç ETW tanı olayları işletim sisteminin denetimindedir.</td></tr>
+</tbody>
+</table>
+<p class="small">%100 güvenlik garantisi verilemez. İşletim sisteminin takas dosyaları ve çökme dökümleri, zararlı yazılımlar ve aynı Windows hesabına erişim uygulamanın koruma sınırının dışındadır. Hedef uygulamaya yazılan metin, hedef uygulamanın kendi veri koşullarına tabidir.</p>
+</details>
+
+<details>
+<summary>Taşıma, kaynak kodu ve doğrulama</summary>
+<p>Hazır Windows paketi Python kurulumu gerektirmez. <code>dist\T-Voice</code> klasörünü <strong>bütün olarak</strong> koru veya taşı; <code>T-Voice.exe</code> tek başına yeterli değildir. Paket OpenVINO Whisper Turbo ve Small yerel modellerini içerir. Turbo, Intel grafik sürücüsünü kullanır; GPU modeli açılamazsa Ayarlar'dan Small seçilebilir. Kullanım sırasında eksik model kendiliğinden indirilmez.</p>
+<p>Kaynak klasöründeki <code>Baslat.cmd</code> hazır paketi, yoksa yerel Python ortamını başlatır. Kaynaktan kurulum ve isteğe bağlı model indirme komutları <code>README.txt</code> içindedir. Bağımlılık veya model indiren ayrı kurulum işlemleri internet kullanır; hazır modellerle konuşma çözümlemesi çevrimdışıdır.</p>
+<p>Uygulama kaynaklarını kişisel kullanımın için değiştirebilir ve geliştirebilirsin. İç Python paketinin adı uyumluluk için <code>duru</code> olarak korunmuştur. Kütüphaneler ve modeller kendi lisanslarına tabidir; ayrıntılar <code>THIRD_PARTY_LICENSES.txt</code> içindedir.</p>
+<p>Bu kişisel Windows paketi imzasızdır. VoiceInk'e karşı hız/doğruluk üstünlüğü veya senin mikrofonunla doğruluk ölçüldüğü iddia edilmez. Gerçek doğrulama sonuçları <code>TEST-SONUCLARI.txt</code>, sürüm kapsamı <code>PLAN.txt</code> içindedir. Canlı akan metin bu sürümde yoktur.</p>
+</details>
+<footer>T-Voice 1.2 · Hesap, abonelik veya bulut kotası gerektirmez. Bu kılavuz çevrimdışı açılır.</footer>
+</main>
+</body>
+</html>
